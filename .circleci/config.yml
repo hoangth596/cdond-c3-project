@@ -33,7 +33,7 @@ commands:
           when: on_fail
           command: |
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
-            SUCCESS = $(curl --insecure  https://kvdb.io/RSBuf9AuoVFGms3azRELaW/migration_<< parameters.Workflow_ID >>)
+            SUCCESS=$(curl --insecure  https://kvdb.io/RSBuf9AuoVFGms3azRELaW/migration_<< parameters.Workflow_ID >>)
             if(( $SUCCESS==1 )); 
             then
               cd ~/project/backend
@@ -269,7 +269,7 @@ jobs:
               --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "API_URL = ${API_URL}"
-            echo API_URL="http://${BACKEND_ID:3030}" >> frontend/.env
+            echo API_URL="http://${BACKEND_ID}:3030" >> frontend/.env
             cat frontend/.env
       - run:
           name: Deploy frontend objects
@@ -312,7 +312,7 @@ jobs:
             echo TYPEORM_ENTITIES=./src/modules/domain/**/*.entity.ts >> "backend/.env"
             echo TYPEORM_MIGRATIONS=./src/migrations/*.ts >> "backend/.env"
             echo TYPEORM_HOST=localhost >> "backend/.env"
-            echo TYPEORM_PORT=5532 >> "backend/.env"
+            echo TYPEORM_PORT={{ lookup('env', 'TYPEORM_PORT') }} >> "backend/.env"
             echo TYPEORM_USERNAME=postgres >> "backend/.env"
             echo TYPEORM_PASSWORD=Abcd123456 >> "backend/.env"
             echo TYPEORM_DATABASE=postgres >> "backend/.env"
