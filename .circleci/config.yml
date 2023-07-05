@@ -255,21 +255,11 @@ jobs:
 
   deploy-frontend:
     docker:
-      - image: amazon/aws-cli
+      - image: cimg/python:3.11
     steps:
       - checkout
-      - run:
-          name: Install python
-          command: |
-            yum install python
-      - run:
-          name: Install npm
-          command: |
-            yum install nodejs npm
-      - run:
-          name: Install tar
-          command: |
-            yum install tar
+      - install-awscli
+      - install-nodejs
       - run:
           name: Get backend url
           command: |
@@ -407,8 +397,8 @@ workflows:
           requires: [configure-infrastructure]
       - deploy-frontend:
           requires: [run-migrations]
-      # - deploy-backend:
-      #     requires: [run-migrations]
+      - deploy-backend:
+          requires: [run-migrations]
       # - smoke-test:
       #     requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:
