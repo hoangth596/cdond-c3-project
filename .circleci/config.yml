@@ -401,16 +401,6 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
-      # - run:
-      #     name: Get old stack workflow id
-      #     command: |
-      #       export OldWorkflowID=$(curl --insecure https://kvdb.io/${KVDB_BUCKET}/old_workflow_id)
-      #       echo OldWorkflowID: $OldWorkflowID
-      #       export STACKS=($(aws cloudformation list-stacks \
-      #                         --query "StackSummaries[*].StackName" \
-      #                         --stack-status-filter CREATE_COMPLETE \
-      #                         --no-paginate --output text))
-      #       echo Stack Name: "${STACKS[@]}"
       - run:
           name: Get old stack workflow id and remove old stacks and files
           command: |
